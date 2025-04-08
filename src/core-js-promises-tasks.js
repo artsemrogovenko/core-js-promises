@@ -112,8 +112,11 @@ function getAllOrNothing(promises) {
  * [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] => Promise fulfilled with [1, 2, 3]
  * [Promise.resolve(1), Promise.reject(2), Promise.resolve(3)]  => Promise fulfilled with [1, null, 3]
  */
-function getAllResult(/* promises */) {
-  throw new Error('Not implemented');
+function getAllResult(promises) {
+  const result = Promise.allSettled(promises).then((results) =>
+    results.map((v) => (v.status === 'fulfilled' ? v.value : null))
+  );
+  return result;
 }
 
 /**
